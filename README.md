@@ -139,6 +139,8 @@ strings package:
 
 strings.ToUpper(s)
 strings.Repeat("!", l)
+strings.Split(content,"\n")
+strings.Fields(content) - split by spaces
 
 var bit byte
 
@@ -357,9 +359,16 @@ Arrays are composite littral :
         You can concatenate two slices using the three dots notation:
         a := []int{1, 2}
         b := []int{11, 22}
-        a = append(a, b...) //    
+        a = append(a, b...) // 
+    
+    copy : both dest and source type should be same 
+        copies element based on the length of the smallest slice
+        even := []int{2,3,4} odd:= []int{5,4}
+        N :=copy(even,odd)// result := 5,4,4 , N -how many element copied
     full slice expression : 
         newSlice := slicable[start:stop:capacity]   
+    
+    If two slices or array and slice pointing to same backing array , then modification will reflect both
 
 
 Error :
@@ -377,7 +386,8 @@ delete(mydictionary, 1) // how to delete it
 
 make :
     does memory allocation for built-in modules like , map , slice , and channel , while new is for types memory allocation
-
+    make(type, length,capacity)
+    append is expensive operation, to set memory at the time of creation use make. 
 go supports variable length arguments:
     func myfunc(arg ...int) {}
 
@@ -393,6 +403,22 @@ Panic and Recover: (no try catch block in go)
     
 init() , main() : will be called automatically
 
+files ----
+    files, err := ioutil.ReadDir(args[0])
+	if err != nil {
+		fmt.Println("err", err)
+		return
+	}
+	for _, files := range files {
+		fmt.Println(files.Name())
+	}
 
+A string value is actually a read-only byte slice. The ellipsis passes the byte elemets of the name string as individual elements to the append function
+    var names []byte
+    name := "aditya"
+    names = append(names, name...)
+
+   	stringSlice := []string{"asd", "asd", stringValue}
+	mysorted := sort.StringSlice(stringSlice)
 //packages list
-    math, strings, fmt, strconv, utf8, os, path, runtime , rand , errors
+    math, strings, fmt, strconv, utf8, os, path, runtime , rand , errors , "io/ioutil",sort
