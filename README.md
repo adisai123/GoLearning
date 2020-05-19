@@ -217,8 +217,6 @@ Logical not operator ;
 nil : (set when yet to initialise)
     default value for pointers, slices, maps, interfaces, channels
 
-error : (not try catch in go)
-
 short it :
     if n ,err :=strconv.Atoi("123"); err == nil{
      //note n and err not available outside this block or in the chain of else if or in else block   
@@ -301,5 +299,100 @@ goto :
         label:
         goto label
     }
+
+Arrays are composite littral :
+    [4] string {"aditya","b"} //rest of element will get default value 
+    [4] string {
+        "aditya",
+        "b",               // this quama is needed as it multiline else not required
+    }
+ books := [100] years{} // you can use constant variables 
+  books :=  [...]string{"aditya","nupur"} // now it will be automatically 2 sized array.
+  mutiDimen := [3][4]int{
+		{1, 2, 3, 4},
+	}
+  
+  if element type is not same then you can not compare array
+  if length type are not same then they are not compareable 
+
+  KEYED array:(you can provide index while assigning value; in below example 2 is the index)
+
+   rate := [...]floate64{
+       2:30,
+        67,
+        5:10      // element size will be 7 : 0,0,30,0,0,10,67  
+   }
+
+   const (
+     	ETH  = 9 - iota //9
+       WAN             //8
+       INCX            //7
+   )
+
+   type (
+		bookCase     [3]int
+		cabinateCase [3]int
+	)
+	b := bookCase{2, 3, 4}
+	c := cabinateCase{2, 3, 4}
+	n := [3]int{2, 3, 4}
+	//c==b not possible
+	//b==n or c==n possile
+	fmt.Println(b, c, n)
+	fmt.Println(b == n)
+	fmt.Println(c == n)
+    	fmt.Println(c == cabinateCase(b))
+
+    difference between array and slices:
+        Array can not shrink or grow
+        Array element can not new element or delete element
+        array length can not be changes
+        slices zero value is nil
+        arryas zero value is elemets zero value
+    slice uses: slice header (pointer , length , capacity)
+        capacity is - length of baking array when slice created, cap() 
+        backing array is the array used to create slice and len() and cap() of the slice will be set with the length of backing array
+        new backing array created if no enough capacity.
+    Append one slice to another
+        You can concatenate two slices using the three dots notation:
+        a := []int{1, 2}
+        b := []int{11, 22}
+        a = append(a, b...) //    
+    full slice expression : 
+        newSlice := slicable[start:stop:capacity]   
+
+
+Error :
+    error := errors.New(" issues occured")
+
+Map : (disordered , nofix length , len method returns how many keys that map has)
+ var myDictionary map[int]string
+ myDictionary[1] ="aditya"
+delete(mydictionary, 1) // how to delete it 
+
+    another way to use shortcut to creat map 
+    m:= make(map[int]string)
+    m["aditya"] = 1
+    m["nupur"] = 2
+
+make :
+    does memory allocation for built-in modules like , map , slice , and channel , while new is for types memory allocation
+
+go supports variable length arguments:
+    func myfunc(arg ...int) {}
+
+defer:
+    you can use many defer statements in one function ; they will execute in reverse order when the program executes
+
+function as a value type : 
+    type typeName func(input1 inputType1 , input2 inputType2 [, ...]) (result1 resultType1 [, ...])
+    advantage you can pass function as value
+
+Panic and Recover: (no try catch block in go)
+    panic is builtin function to break the normal flow
+    
+init() , main() : will be called automatically
+
+
 //packages list
-    math, strings, fmt, strconv, utf8, os, path, runtime , rand
+    math, strings, fmt, strconv, utf8, os, path, runtime , rand , errors

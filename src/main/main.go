@@ -20,7 +20,5 @@ func main() {
 	fmt.Println("current vlu", x)
 
 	a.ExecuteAll()
-	for i:= 0 ; i<10 ; i++{
-		fmt.Println(100/i-9)
-	}
+
 }

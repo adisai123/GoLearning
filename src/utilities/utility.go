@@ -17,4 +17,7 @@ func ExecuteAll() {
 	fmt.Println("one", One, " two", Tw0)
 	iotaTesting()
 	randonGenerator()
+	compareArray()
+	slices()
+	ExecuteFunctionParameterExample()
 }
