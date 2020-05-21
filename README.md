@@ -373,6 +373,8 @@ Arrays are composite littral :
 
 Error :
     error := errors.New(" issues occured")
+    var err error
+    err = fmt.Errorf("my error")
 
 Map : (disordered , nofix length , len method returns how many keys that map has)
  var myDictionary map[int]string
@@ -490,9 +492,121 @@ To create set you need to use map in go (unique values)
 //regular expression
 var regx *regexp.Regexp = regexp.MustCompile(`[^ a-z | A-Z | 0-9]+`)  //costly operation bust be run once , must declare outside method or outside loop
     str := regx.ReplaceAllString(in.Text(), "")
+
+Struct : allow to create be blueprint for set of related type to a single type. (fix at compile type , you can not add fields at run type)
+
+with slice , array or map , you can create of same type , in struct you can add different type as well because they may have different types of fields.
+
+type Person struct{
+    name string,
+    age int
+}
+
+aditya := Person{
+name : "aditya",
+age : 10,
+}
+or
+aditya := Person{ /// when you dont declare field name , order is important
+"adtiay",
+10,
+}
+
+var aditya Person
+aditya.name = "vasanti"
+aditya.age=10
+
+
+when you create new struct from exist it creates clone , modification of one struct will not reflect  others
+type person struct{
+name string
+}
+
+func main() {
+var person1 person
+person1.name = "aditya"
+person2 := person1
+person2.name = "saish"
+fmt.Println("",person1) //output aditya
+}
+
+
+go does not have inheritance or is-a relation
+go use composition has-a relationship  (go called it embedding )
+
+anonymous has a relation :
+
+type Person struct {
+name string
+mobile int
+}
+type Struent struct {
+Person // anynomous
+cardId string
+}
+
+-------------------
+
+type Person struct {
+name string
+mobile int
+}
+type Student struct {
+Person // anynomous
+cardId string
+name string
+}
+
+func main() {
+var person1 Person
+person1.name = "aditya"
+person2 := person1
+person2.name = "saish"
+fmt.Println("Hello, playground",person1)
+
+ stud := Student{
+Person : Person{
+"aditya",
+56788888,
+},
+
+}
+fmt.Println(stud.mobile) // 56788888
+fmt.Println(stud.name) // blank
+
+
+---------json marshaling ------------
+type person struct {
+name string
+FirstName string     `json:"Name,omitempty"`   this is field tag
+password string      `json:"_"`   
+}
+func main() {
+var student person
+student.name = "aditya"
+out, _ := json.Marshal(student)
+fmt.Println("Hello, playground",string(out))   // name is not exported as n is lower case will not be marshaled, only exported field will be marshaled
+}
+
+you can redirect your output into the file:
+    go run main.go > users.json
+
+
+Go does not support function overloading , constructor
+
+Declaring package level variable is a bad practic.
+Go is a pass by value language: variable pass the function is a copy (clone) and not actual value 
+
+func myFunc(m int) (n int){
+    n = m
+    return  // it is same as return n l; also called as naked retrun
+}
+
+pointer :
+    * - finds value , & - find address
 //packages list
-    math, strings, fmt, strconv, utf8, os, path, runtime , rand , errors , "io/ioutil",sort
-    BUFIO.SCANNER ,regx
+    math, strings, fmt, strconv, utf8, os, path, runtime, rand, errors, "io/ioutil", sort
+    BUFIO.SCANNER, regx, encoding/json
 
 Problems:
 
@@ -504,8 +618,10 @@ Wrap the given text for 40 characters per line. For example, for the following i
 
 INPUT:
 
-Hello world, how is it going? It is ok.. The weather is beautiful.
+Hello world, how is it going? It is ok The weather is beautiful.
 OUTPUT:
 
-Hello world, how is it going? It is ok..
+Hello world, how is it going? It is ok.
 The weather is beautiful.
+
+
