@@ -420,5 +420,92 @@ A string value is actually a read-only byte slice. The ellipsis passes the byte 
 
    	stringSlice := []string{"asd", "asd", stringValue}
 	mysorted := sort.StringSlice(stringSlice)
+
+time : command measures the execution time of a program
+    time go run main.go
+    o/p:
+        real    0m1.322s
+        user    0m0.473s
+        sys     0m0.166s
+
+The backing array is shared amoung the same string values. That is why they are read only.
+unless necessory do not convert to string , comsume memory.
+Be efficient: Do not use string concat (+ operator).
+Instead, create a new byte slice as a buffer 
+
+var buff = make([]byte, 0 , size)
+
+for i:=0 ; i<size ;i++{
+    buff = append(buff, text[i])
+}
+
+MAP : 
+ var myMap map[string]int 
+ var myMap map[string]int {
+     "aditya" : 99,
+ }
+    value,bool := myMap["aditya"]
+
+    If element doesn't exist in a map, the map returns a zero value depending on the element type of the map.
+    You cannot add element inside the map without initialising it.
+    if you copy from one map to other and modify oter map , it will reflect to other map as well.
+    myCopiedMap := myMap
+    Map header only has pointer.
+    String header has pointer and length
+    slice and array header has pointer , length and capacity
+    if you add same key & value into map , existing value will be overriden
+
+    delete(myMap,key) //no need to check if key exist or not.
+    myMap = nil  //to delete all element but element still exist in the memory
+     for key:= range myMap{
+         delete(myMap,key)  //this for loop is just a single operation behind the scenes go changes this whole loop to single clear command mapclear().
+     } 
+
+
+
+scanning user input :
+    input stream line by line into a buffer:
+    Command line Input , Network Input or file 
+    default stop character is new line
+
+go run . < main.go //file will be treated as standard input to the program 
+in := bufio.NewScanner(os.Stdin)
+	for in.Scan() {
+		fmt.Println(in.Text())   // print file line by line
+}
+	if err := in.Err(); err != nil {
+		fmt.Println(err)          // no need to add it in the for loop
+	}
+
+To create set you need to use map in go (unique values)
+    //	in.Split(bufio.ScanWords)  -- use can use it to scan for words instead of new line
+
+
+
+// you can search content of the websites as well : where website content will be act as a file to a go input (curl -s - only show contents)
+
+ curl -s https://goaditya.blogspot.com/2020/05/linux-commands-for-beginners.html | go run .
+
+
+//regular expression
+var regx *regexp.Regexp = regexp.MustCompile(`[^ a-z | A-Z | 0-9]+`)  //costly operation bust be run once , must declare outside method or outside loop
+    str := regx.ReplaceAllString(in.Text(), "")
 //packages list
     math, strings, fmt, strconv, utf8, os, path, runtime , rand , errors , "io/ioutil",sort
+    BUFIO.SCANNER ,regx
+
+Problems:
+
+1. masking characters
+
+
+2. 
+Wrap the given text for 40 characters per line. For example, for the following input, the program should print the following output.
+
+INPUT:
+
+Hello world, how is it going? It is ok.. The weather is beautiful.
+OUTPUT:
+
+Hello world, how is it going? It is ok..
+The weather is beautiful.

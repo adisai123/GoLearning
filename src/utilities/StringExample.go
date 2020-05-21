@@ -19,5 +19,6 @@ func stringEx() {
 	eq := "1 + 2 ="
 	sum := 1 + 1
 	fmt.Println(eq + strconv.Itoa(sum))
+	str1, str2 := "adi", "adi"
 
 }
