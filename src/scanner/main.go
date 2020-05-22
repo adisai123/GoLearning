@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"strings"
 )
 
 var ao int = 10
@@ -18,9 +19,12 @@ func main() {
 	for in.Scan() {
 		str := regx.ReplaceAllString(in.Text(), "")
 		fmt.Println(str)
+		break
 	}
 	if err := in.Err(); err != nil {
 		fmt.Println(err)
 	}
-
+	s1 := []string{"ad", "das"}
+	totalString := strings.Join(s1, "-")
+	fmt.Println("joined string", totalString)
 }
