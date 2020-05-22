@@ -604,9 +604,135 @@ func myFunc(m int) (n int){
 
 pointer :
     * - finds value , & - find address
+
+    A map value is a pointer. So, do not use pointers to map values. (if map is passed as a parameter function can modify it and will affect orignal map as well)
+
+Methods :
+    struct Person{
+        name string
+    }
+
+    func (p Person) myPerson(){
+        fmt.Println(p)
+    }
+    func (p *Person)changeName(n  string){
+        p.name = n
+    }
+    var p Person
+    p.name="sad"
+    (&p).changeName("happy")
+    another benifit , you can create fun with same name for  dfferent diffrent struct type
+    method belongs to type , function belongs to a package
+    methods can be attached to any types : int , string , float64, array , struct, slice , map , chan , func
+    A type and its methods should be in same package
+    you can call methods with nil values variable as well
+
+interface ://
+    interface is a protocol - a contract
+    We can describe comman behaviour with the help of interface.
+    interface is an abstract type.
+    interface only describe expected behaviour.
+    any type wants to implement interface has to implement all the methods , no partitial implementation allowed
+    The bigger the interface the weaker the abstraction
+    you can assigne any type of value to printer var as long as that type implements interface all methods.
+    to convert interface variable to implementation type
+      g , isGame := interfacevar.(*game) 
+      or if any type satisfise given interface you can check :
+      g , isGame := interfaceVar.(interface{ discount(float64)})
+    package main
+
+import "fmt"
+
+type printer interface{
+	print()  // if any type implements this print() will be implementing this printer interface
+}
+
+type teacher struct{
+	id int
+}
+func(t teacher) print(){
+	fmt.Println("teacher",t.id)
+}
+type person struct{
+	name string
+}
+func (p person) print(){
+	fmt.Println("person",p.name)
+}
+type list []printer
+func (ls list) print(){
+	for _, l  := range ls {
+		l.print()
+	}
+}
+func main(){
+	p := []person {
+		{"aditya"},
+		{"nupur"},
+		{"saish"},
+	}
+	t := teacher{1}
+	var l list
+	for _, p := range p {
+		l = append(l,p)		
+	}
+	l = append(l,t)
+
+	l.print()
+}
+
+
+empty interfaces:
+    type empty interface {
+
+    } 
+    or inferface {}
+
+    var any interface{}
+    any = "aditya"
+    any = 10
+    any = any.(int) * 2  // you need to convert inface type to required type
+
+    type switch :
+    Detects and extracts the dynamic value from an inteface value
+    
+    switch e := v.(type){
+
+    }
+
+    famous interfaces:
+    fmt.Stringer, io.Writer, io.Reader, sort.Interface, error, json.Marshaler
+    fmt.Stringer - need to implement String() which will written string
+    type book struct{
+	name string
+}
+func (b book) String() string{
+	return fmt.Sprintf("book.name%s",b.name)
+}
+func main()  {
+	b := book { "Ramayan"}
+	fmt.Println("book",b)  // b it will indirectly call String()
+} 
+strings.Builder can efficiently combine multiple string values.
+
+//sort need to implemnt below interface   	sort.Sort(b) // or reverse : sort.Sort(sort.Reverse(b))
+func (a list) Len() int{ 
+	return len(a)
+}
+func (a list) Swap(i,j int)  {
+	a[i], a[j] = a[j], a[i]
+}
+
+func (a list) Less(i,j int)bool{
+	return a[i].price < a[j].price
+}
+
+if err != nil {
+		log.Fatal(err)   // it is same as using fmt.print and return
+	}
 //packages list
     math, strings, fmt, strconv, utf8, os, path, runtime, rand, errors, "io/ioutil", sort
-    BUFIO.SCANNER, regx, encoding/json
+    BUFIO.SCANNER, regx, encoding/json ,log
 
 Problems:
 
@@ -625,3 +751,4 @@ Hello world, how is it going? It is ok.
 The weather is beautiful.
 
 
+https://github.com/inancgumus/learngo.git
