@@ -730,9 +730,74 @@ func (a list) Less(i,j int)bool{
 if err != nil {
 		log.Fatal(err)   // it is same as using fmt.print and return
 	}
+
+how to joing string:
+s1 := []string{"ad", "das"}
+	totalString := strings.Join(s1, "-")
+
+both slice , map , channels , pointers, function (all this is reference type) will be modifed if passed to any function as a argument
+
+int, bool, float, struct are not reference type (they are value type), if you want to pass its reference ,you need to use it using & symbol
+
+channels :
+    when we have main go routine and child go routine (by using go before calling method/function) child routine does not get priority to run 
+    if you don't use channel :
+    main go routine starts creating child go rountine and checks any other pending code to run inside main routine then program exist. 
+
+    Channels are used to communicate between go routines(only way to communicate between go routines)
+    import (
+	"fmt"
+	"net/http"
+	"time"
+)
+
+var (
+	site = []string{
+		"http://google.com",
+		"http://amazon.com",
+		"http://golang.org",
+		"http://faceboosk2.com",
+	}
+)
+
+func main() {
+	c := make(chan bool)
+	for _, link := range site {
+		go checkLink(link, c)
+		bools := <-c   // wating for the message coming from channel
+		if !bools {
+			time.Sleep(30 * time.Second)
+			go checkLink(link, c)
+			<-c  
+		}
+	}
+
+}
+
+func checkLink(l string, c chan bool) {
+	_, err := http.Get(l)
+	fmt.Println("checking for ling", l)
+	for _, i := range []int{1, 2, 3, 4, 5, 6} {
+		fmt.Print(i)
+	}
+	if err != nil {
+		fmt.Println(l, "might be down")
+		c <- false
+		return
+	}
+	fmt.Println(l, "is up")
+	c <- true //sending message to channel
+
+}
+
+
+function literal:(anonymous function):
+
+    
+
 //packages list
     math, strings, fmt, strconv, utf8, os, path, runtime, rand, errors, "io/ioutil", sort
-    BUFIO.SCANNER, regx, encoding/json ,log
+    BUFIO.SCANNER, regx, encoding/json ,log,net/http
 
 Problems:
 
